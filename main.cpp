@@ -77,6 +77,67 @@ class CornerGrocerApp {
 
             outputFile.close();
         }
+
+        void run() {
+            saveFrequencyBackup();
+
+            if (!loadData()) {
+                std::cerr << "Failed to load data from file." << std::endl;
+                return;
+            }
+
+            saveFrequencyBackup();
+            
+            do {
+                menu.displayMenu();
+                int choice = menu.getChoice();
+
+                switch (choice) {
+                    case 1:
+                        searchItem();
+                        break;
+                    case 2:
+                        printFrequencies();
+                        break;
+                    case 3:
+                        printHistogram();
+                        break;
+                    case 4:
+                        std::cout << "Exiting program. Goodbye!" << std::endl;
+                        break;
+                }
+            } while (choice != 4);
+
+    private:
+        loadData() {
+            std::ifstream inputFile(inputFileName);
+
+            if (!inputFile) {
+                std::cerr << "Could not open file!" << inputFileName << std::endl;
+                return false;
+            }
+
+            std::string item;
+            while (std::getline(inputFile, item)) {
+                itemFrequencies[item]++;
+            }
+
+            inputFile.close();
+            return true;
+        }
+
+        saveFrequencyBackup() {
+            std::ofstream outputFile(backupFileName);
+
+            if (!outputFile) {
+                std::cerr << "Could not create backup file: " << backupFileName << std::endl;
+                return;
+            }
+
+            for 
+                
+            
+        }
 };
 
 int main() {
