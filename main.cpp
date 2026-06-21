@@ -1,71 +1,90 @@
+// Evan Cogan
+// CS-210
+// Project 3
+
 /*
 Your task is to build an *item-tracking program* for the Corner Grocer
 
 The program that the Corner Grocer is asking you to create should address the following functional requirements:
 */
 #include <iostream>
+#include <map>
+#include <fstream>
+#include <string>
 
+// I used a class for the menu to honor the principles of OOP.
+class Menu {
+    public:
+        void displayMenu() {
+            std::cout << "1. Search for an item\n";
+            std::cout << "2. Print all item frequencies\n";
+            std::cout << "3. Print Histogram\n";
+            std::cout << "4. Exit\n";
+        }
 
-/*
-[]  Menu Option One:
+        int getChoice () {
+            int choice;
+            std::cout << "Enter your choice (1-4): ";
+            std::cin >> choice;
+             
+            // Validation, should be between 1 and 4 ONLY
+            while (choice < 1 || choice > 4) {
+                std::cout << "Invalid choice. Please enter 1, 2, 3, or 4.\n";
+                std::cout << "Enter your choice (1-4): ";
+                std::cin >> choice;
+            }
+             
+            return choice;
+        }
+};
 
-Prompt a user to input the item, or word, they wish to look for.
-Return a numeric value for the frequency of the specific word.
+// The CornerGrocerApp class talks to the Menu class and handles the data processing, sending it back to the Menu class for display.
+class CornerGrocerApp {
+    private:
+        std::map<std::string, int> itemFrequencies;
+        std::string inputFileName = "CS210_Project_Three_Input_File.txt";
+        std::string backupFileName = "frequency.dat";
+        Menu menu;
 
-*/
+    public:
+        void loadData() {
+            std::ifstream inputFile(inputFileName);
 
+            if (!inputFile) {
+                std::cerr << "Could not open file!" << inputFileName << std::endl;
+                return;
+            }
 
-/*
-[]  Menu Option Two:
+            std::string item;
+            while (std::getline(inputFile, item)) {
+                itemFrequencies[item]++;
+            }
 
-Print the list with numbers that represent the frequency of all items purchased.
-The screen output should include every item (represented by a word) paired with the number of times that item appears in the input file, CS210_Project_Three_Input_File.txt. For example, the file might read as follows:
-Potatoes 4
-Pumpkins 5
-Onions 3
-*/
+            inputFile.close();
+        }
 
+        void saveFrequencyBackup() {
+            std::ofstream outputFile(backupFileName);
 
-/*
+            if (!outputFile) {
+                std::cerr << "Could not create backup file: " << backupFileName << std::endl;
+                return;
+            }
 
-[]  Menu Option Three:
+            for (const auto& pair : itemFrequencies) {
+                outputFile << pair.first << " " << pair.second << std::endl;
+            }
 
-Print the same frequency information for all the items in the form of a histogram.
-Then print the name, followed by asterisks or another special character to represent the numeric amount.
-The number of asterisks should equal the frequency read from the CS210_Project_Three_Input_File.txt file. For example, if the file includes 4 potatoes, 5 pumpkins, and 3 onions, then your text-based histogram may appear as represented below. However, you can alter the appearance or color of the histogram in any way you choose:
-Potatoes ****
-Pumpkins *****
-Onions ***
-
-*/
-
-
-/*
-
-[]  Menu Option Four:
-
-Exit the program.
-Data File Creation:
-Create a data file, with the naming convention frequency.dat, for backing up your accumulated data. The frequency.dat file should include every item (represented by a word) paired with the number of times that item appears in the input file.
-
-This output file is created in the beginning of the program without user intervention and is for backup purposes. For assistance with writing files, see sections 7.1, "File Input," and 7.3, "File Output," in zyBooks.
-*/
-
-
-/*
-
-[]  Optional Challenge: User Input Validation
-Validating user input is a coding best practice. For an additional challenge with this assignment, use input validation and error handling to anticipate, detect, and respond to run-time and user errors (for example, make sure you have option four on your menu so users can exit the program).
-*/
-
-
-/*
-
-[]  Documentation:
-Describe your code’s design and functionality. Include screenshots to support your description. As you complete this work, your manager at Chada Tech is interested to see your thought process regarding how you use C++.
-*/
+            outputFile.close();
+        }
+};
 
 int main() {
     std::cout << "Hello, World!\n";
     return 0;
 }
+
+/*
+[]  Documentation:
+Describe your code’s design and functionality. Include screenshots to support your description. As you complete this work, your manager at Chada Tech is interested to see your thought process regarding how you use C++.
+*/
