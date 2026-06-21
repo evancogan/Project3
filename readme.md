@@ -27,7 +27,8 @@ Then run it with:
 Make sure the input file is in the same folder as the program so it can load the item data correctly.
 
 # Screenshots
-
+![Screenshot of the app](images/screenshot1.png)
+![Screenshot 2](screenshot2.png)
 
 # Design Notes
 The CornerGrocerApp class talks to the Menu class and handles the data processing, sending it back to the Menu class for display.
