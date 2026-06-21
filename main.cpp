@@ -53,7 +53,7 @@ private:
             std::cerr << "Could not open file: " << inputFileName << std::endl;
             return false;
         }
-
+        // This loop reads each item from the input file and updates the frequency count accordingly.
         std::string item;
         while (inputFile >> item) {
             itemFrequencies[item]++;
@@ -112,7 +112,8 @@ public:
         do {
             menu.displayMenu();
             choice = menu.getChoice();
-
+            
+            // A switch statement is used here to offer a clear and efficient way to handle the user's choices
             switch (choice) {
                 case 1:
                     searchItemFrequency();
