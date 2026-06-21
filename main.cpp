@@ -133,6 +133,8 @@ public:
         } while (choice != 4);
     }
 };
+
+// The main function simply creates an instance of the CornerGrocerApp class, and calls its run method. Simple.
 int main() {
     CornerGrocerApp app;
     app.run();
