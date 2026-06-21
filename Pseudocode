@@ -1,0 +1,133 @@
+Pseudocode: Main
+
+FUNCTION main()
+    CREATE app as CornerGrocerApp
+    CALL app.run()
+END FUNCTION
+
+
+Pseudocode: Menu Class
+
+CLASS Menu
+    PUBLIC:
+
+        FUNCTION displayMenu()
+            PRINT "1. Search for an item"
+            PRINT "2. Print all item frequencies"
+            PRINT "3. Print histogram"
+            PRINT "4. Exit"
+        END FUNCTION
+
+        FUNCTION getChoice()
+            PROMPT user for menu choice
+            READ choice
+
+            WHILE choice is not 1, 2, 3, or 4
+                PRINT "Invalid choice. Please enter 1, 2, 3, or 4."
+                PROMPT user again
+                READ choice
+            END WHILE
+
+            RETURN choice
+        END FUNCTION
+END CLASS
+
+
+Pseudocode: CornerGrocerApp Class
+
+CLASS CornerGrocerApp
+    PRIVATE:
+        itemFrequencies as map of string to integer
+        inputFileName as string = "CS210_Project_Three_Input_File.txt"
+        backupFileName as string = "frequency.dat"
+        menu as Menu
+
+    PUBLIC:
+
+        FUNCTION run()
+            CALL saveFrequencyBackup()
+
+            IF NOT CALL loadData() THEN
+                PRINT "Unable to open input file."
+                STOP PROGRAM
+            END IF
+
+            CALL saveFrequencyBackup()
+
+            DO
+                CALL menu.displayMenu()
+                choice = CALL menu.getChoice()
+
+                IF choice = 1 THEN
+                    CALL searchItemFrequency()
+                ELSE IF choice = 2 THEN
+                    CALL printAllFrequencies()
+                ELSE IF choice = 3 THEN
+                    CALL printHistogram()
+                ELSE IF choice = 4 THEN
+                    PRINT "Exiting program."
+                END IF
+            WHILE choice is not 4
+        END FUNCTION
+
+    PRIVATE:
+
+        FUNCTION loadData()
+            OPEN inputFileName for reading
+
+            IF file cannot be opened
+                RETURN false
+            END IF
+
+            WHILE input file still has another item to read
+                READ item
+
+                IF item exists in itemFrequencies
+                    INCREASE itemFrequencies[item] by 1
+                ELSE
+                    SET itemFrequencies[item] = 1
+                END IF
+            END WHILE
+
+            CLOSE input file
+            RETURN true
+        END FUNCTION
+
+        FUNCTION saveFrequencyBackup()
+            OPEN backupFileName for writing
+
+            IF file cannot be opened
+                PRINT "Unable to create frequency.dat"
+                RETURN
+            END IF
+
+            FOR each item in itemFrequencies
+                WRITE item, space, and itemFrequencies[item] to backup file
+            END FOR
+
+            CLOSE backup file
+        END FUNCTION
+
+        FUNCTION searchItemFrequency()
+            PROMPT user for item name
+            READ searchItem
+
+            IF searchItem exists in itemFrequencies
+                PRINT searchItem and the numeric frequency
+            ELSE
+                PRINT searchItem + " not found"
+            END IF
+        END FUNCTION
+
+        FUNCTION printAllFrequencies()
+            FOR each item in itemFrequencies
+                PRINT item and itemFrequencies[item]
+            END FOR
+        END FUNCTION
+
+        FUNCTION printHistogram()
+            FOR each item in itemFrequencies
+                PRINT item, space, and one asterisk for each count in itemFrequencies[item]
+            END FOR
+        END FUNCTION
+END CLASS

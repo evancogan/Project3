@@ -1,4 +1,7 @@
-/*The program that the Corner Grocer is asking you to create should address the following functional requirements:
+/*
+Your task is to build an *item-tracking program* for the Corner Grocer
+
+The program that the Corner Grocer is asking you to create should address the following functional requirements:
 */
 #include <iostream>
 
