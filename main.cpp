@@ -32,6 +32,8 @@ class Menu {
                 std::cout << "Invalid choice. Please enter 1, 2, 3, or 4.\n";
                 std::cout << "Enter your choice (1-4): ";
                 std::cin >> choice;
+
+                return choice;
             }
              
             return choice;
